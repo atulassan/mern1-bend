@@ -8,6 +8,7 @@ Authorization = {
             email: req.body.email,
             username: req.body.username,
             password: bcrypt.hashSync(req.body.password, 8),
+            phone: req.body.phone,
             created: new Date(),
         }
 
@@ -40,13 +41,13 @@ Authorization = {
         console.log("Password Verificatinon++++++++++++++++++", passwordIsValid);
         if (!passwordIsValid) return res.status(401).send({ status: false, message: "Username Or Password Is not valid" });
 
-        let user = { id: chk.result[0].id, username: chk.result[0].username, email: chk.result[0].email }
+        let user = { id: chk.result[0].id, username: chk.result[0].username, email: chk.result[0].email, role: chk.result[0].role };
 
         // expires in 24 hours
         var token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: 86400 });
         //res.status(200).send({ auth: true, token: token });
         
-        return res.status(200).send({status:true, message: 'Login Successful', data: { ...user, token: token }});
+        return res.status(200).send({status:true, message: 'Login Successful', response: { ...user, token: token }});
         
     },
     async verifyToken(req, res, next) {
