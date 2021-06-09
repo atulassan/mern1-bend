@@ -22,7 +22,7 @@ var dbOptions = {
 
 global.conn = mysql.createConnection(dbOptions);
 
-var password = "atulassan";
+var password = "atulassan"; 
 var hashedPassword = bcrypt.hashSync(password, 8);
 
 var passwordIsValid = bcrypt.compareSync("atulassan", hashedPassword);
